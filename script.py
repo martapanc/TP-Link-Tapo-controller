@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 
 from dotenv import load_dotenv
@@ -8,20 +9,30 @@ PLUG_DEVICE = "Router smart plug"
 TIME_OFF = 2
 
 
+load_dotenv()
+
+DEVICE = {
+    "tapoIp": os.environ["tapoIp"],
+    "tapoEmail": os.environ["tapoEmail"],
+    "tapoPassword": os.environ["tapoPassword"],
+    "nickname": PLUG_DEVICE
+}
+
+
 def main():
-    load_dotenv()
+    toggle_plug(DEVICE)
 
-    device = {
-        "tapoIp": os.environ["tapoIp"],
-        "tapoEmail": os.environ["tapoEmail"],
-        "tapoPassword": os.environ["tapoPassword"],
-        "nickname": PLUG_DEVICE
-    }
-
-    toggle_plug(device)
-
-    response = tapoPlugApi.getDeviceInfo(device)
+    response = tapoPlugApi.getDeviceInfo(DEVICE)
     print(response)
+
+
+def is_connected():
+    try:
+        # Ping Google's DNS server
+        subprocess.check_output(['ping', '-c', '1', '8.8.8.8'])
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
 
 def toggle_plug(device):
