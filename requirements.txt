@@ -4,6 +4,7 @@ idna==3.4
 Naked==0.1.32
 pkcs7==0.1.2
 pycryptodome==3.17
+python-dotenv==1.0.0
 PyYAML==6.0
 requests==2.28.2
 tapo-plug==0.7
